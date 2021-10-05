@@ -135,12 +135,14 @@ function deleteTask(del, indx, list) {
 }
 
 // function for delete all completed
-function deleteCompleted() {
+const deleteCompleted = () => {
   const deletButon = document.getElementById('deleteButton');
   deletButon.addEventListener('click', () => {
     const local = window.localStorage.getItem('tasklist');
     const list = JSON.parse(local);
     const newList = list.filter((task) => task.completed === false);
+    // update array in document
+    tasksList = newList;
     updatePosition(newList);
     showItems(newList);
     saveList(newList);
@@ -159,29 +161,31 @@ const updateArray = (list, id, value) => {
   return list;
 };
 
-function editTask(e, list, id) {
-  const d = document.createElement('input');
-  d.type = 'text';
-  const b = document.createElement('input');
-  b.type = 'button';
-  b.value = 'delete';
+// hay un error en esta funcion, despues de editar una task, si la eliminas seguido de eso se elimina junto con el elemento siguiente
 
-  e.addEventListener('click', () => {
-    d.value = e.innerHTML;
-    e.parentNode.replaceChild(d, e);
-    d.parentNode.appendChild(b);
+function editTask(oldTask, list, id) {
+  const newText = document.createElement('input');
+  newText.type = 'text';
+  const deletButon = document.createElement('input');
+  deletButon.type = 'button';
+  deletButon.value = 'delete';
 
-    const sibling = d.parentNode.firstChild;
-    d.focus();
-    deleteTask(b, sibling.id, list);
+  oldTask.addEventListener('click', () => {
+    newText.value = oldTask.innerHTML;
+    oldTask.parentNode.replaceChild(newText, oldTask);
+    newText.parentNode.appendChild(deletButon);
+
+    const sibling = newText.parentNode.firstChild;
+    newText.focus();
+    deleteTask(deletButon, sibling.id, list);
   });
 
-  d.addEventListener('keypress', (event) => {
+  newText.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
-      e.innerHTML = d.value;
-      d.parentNode.replaceChild(e, d);
-      e.parentNode.removeChild(b);
-      updateArray(list, id, d.value);
+      oldTask.innerHTML = newText.value;
+      newText.parentNode.replaceChild(oldTask, newText);
+      oldTask.parentNode.removeChild(deletButon);
+      updateArray(list, id, newText.value);
     }
   });
 }

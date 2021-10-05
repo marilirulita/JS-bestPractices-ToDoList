@@ -53,8 +53,8 @@ span {
   color: darkgray;
 }
 
-input[type="checkbox"]:checked::after {
-  /* Heres your symbol replacement - this is a tick in Unicode. */
-  content: "\2713";
-  color: #fff;
+.practice {
+  border: 1px dotted orangered;
+  width: 100px;
+  height: 100px;
 }
