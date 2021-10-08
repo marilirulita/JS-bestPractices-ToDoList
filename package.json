@@ -4,7 +4,7 @@
   "description": "copy of to do list for test with jest",
   "main": "index.js",
   "scripts": {
-    "test":  "jest"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/marilirulita/JS-bestPractices-ToDoList#readme",
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "jest": "^27.2.4"
   }
 }
